@@ -6,6 +6,7 @@ __pycache__/
 resources
 .DS_Store
 *.tar.gz
+VisualSolver/
 tutor/node_modules/
 tutor/dist/
 tutor/client/node_modules/
