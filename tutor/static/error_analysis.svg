@@ -1,0 +1,120 @@
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+      <!-- Drop Shadows -->
+      <filter id="ea-shadow-lg" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="8" dy="16" stdDeviation="12" flood-color="#8072e6" flood-opacity="0.25" />
+      </filter>
+      <filter id="ea-shadow-md" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="4" dy="8" stdDeviation="8" flood-color="#3d3775" flood-opacity="0.2" />
+      </filter>
+      <filter id="ea-shadow-sm" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#3d3775" flood-opacity="0.3" />
+      </filter>
+      <filter id="ea-glow-red" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#ff4444" flood-opacity="0.45" />
+      </filter>
+      <filter id="ea-glow-orange" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#ff8844" flood-opacity="0.4" />
+      </filter>
+
+      <!-- Paper Gradients -->
+      <linearGradient id="ea-paper-back" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#c1b6ff" />
+        <stop offset="100%" stop-color="#9d8fff" />
+      </linearGradient>
+      <linearGradient id="ea-paper-front" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f8f7ff" />
+        <stop offset="100%" stop-color="#e3ddff" />
+      </linearGradient>
+
+      <!-- Text Bar -->
+      <linearGradient id="ea-text-bar" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#5a52a5" />
+        <stop offset="100%" stop-color="#3e3876" />
+      </linearGradient>
+
+      <!-- Error Circle -->
+      <linearGradient id="ea-circle-outer" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff7a6a" />
+        <stop offset="100%" stop-color="#e03030" />
+      </linearGradient>
+      <linearGradient id="ea-circle-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#fff0f0" />
+      </linearGradient>
+
+      <!-- Magnifier -->
+      <linearGradient id="ea-lens" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#c8c0ff" stop-opacity="0.7" />
+        <stop offset="100%" stop-color="#a090ff" stop-opacity="0.5" />
+      </linearGradient>
+      <linearGradient id="ea-handle" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffe666" />
+        <stop offset="100%" stop-color="#ffcd33" />
+      </linearGradient>
+      <linearGradient id="ea-handle-side" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#f5b800" />
+        <stop offset="100%" stop-color="#d99800" />
+      </linearGradient>
+    </defs>
+
+    <!-- Background Paper (rotated) -->
+    <g transform="translate(256, 256) rotate(10) translate(-256, -256)">
+      <rect x="120" y="80" width="240" height="340" rx="30" fill="url(#ea-paper-back)" filter="url(#ea-shadow-lg)" />
+    </g>
+
+    <!-- Foreground Paper -->
+    <g transform="translate(256, 256) rotate(-4) translate(-256, -256)">
+      <rect x="100" y="90" width="270" height="360" rx="35" fill="url(#ea-paper-front)" filter="url(#ea-shadow-lg)" />
+
+      <!-- Title bar -->
+      <rect x="145" y="150" width="135" height="32" rx="16" fill="url(#ea-text-bar)" filter="url(#ea-shadow-sm)" />
+      <rect x="145" y="200" width="85" height="32" rx="16" fill="url(#ea-text-bar)" filter="url(#ea-shadow-sm)" />
+
+      <!-- Ghost text lines with red tint (error context) -->
+      <rect x="145" y="255" width="100" height="16" rx="8" fill="#ffb3b3" opacity="0.5" />
+      <rect x="145" y="285" width="155" height="16" rx="8" fill="#c3bcff" opacity="0.5" />
+      <rect x="145" y="315" width="80" height="16" rx="8" fill="#ffb3b3" opacity="0.5" />
+    </g>
+
+    <!-- Error Circle (Red ring + X mark) -->
+    <g transform="translate(260, 325)">
+      <!-- Outer red ring -->
+      <circle cx="0" cy="0" r="105" fill="url(#ea-circle-outer)" filter="url(#ea-shadow-md)" />
+      <!-- Inner white circle -->
+      <circle cx="0" cy="0" r="75" fill="url(#ea-circle-inner)" filter="url(#ea-shadow-sm)" />
+      <!-- X mark -->
+      <path d="M-35,-35 L35,35 M35,-35 L-35,35" fill="none" stroke="#ff3a1a" stroke-width="26"
+        stroke-linecap="round" filter="url(#ea-glow-red)" />
+    </g>
+
+    <!-- Magnifying Glass (floating, inspecting the paper) -->
+    <g transform="translate(340, 210) rotate(-35)">
+      <!-- Handle top face -->
+      <rect x="-10" y="20" width="20" height="70" rx="8" fill="url(#ea-handle)" filter="url(#ea-shadow-sm)" />
+      <!-- Handle side face -->
+      <rect x="10" y="25" width="8" height="62" rx="4" fill="url(#ea-handle-side)" />
+      <!-- Metal band -->
+      <rect x="-11" y="16" width="22" height="10" rx="4" fill="#473e8a" />
+      <!-- Lens ring outer -->
+      <circle cx="0" cy="0" r="48" fill="none" stroke="#473e8a" stroke-width="14" filter="url(#ea-shadow-md)" />
+      <!-- Lens glass -->
+      <circle cx="0" cy="0" r="41" fill="url(#ea-lens)" />
+      <!-- Lens shine -->
+      <ellipse cx="-10" cy="-12" rx="12" ry="8" fill="white" opacity="0.35" transform="rotate(-20)" />
+    </g>
+
+    <!-- Decorative floating elements -->
+    <g transform="translate(138, 355)">
+      <path d="M0,-10 L0,10 M-10,0 L10,0" fill="none" stroke="#ff5533" stroke-width="5"
+        stroke-linecap="round" filter="url(#ea-shadow-sm)" opacity="0.8" />
+    </g>
+    <g transform="translate(392, 138) scale(1.2)">
+      <path d="M0,-8 L0,8 M-8,0 L8,0" fill="none" stroke="#ffcd33" stroke-width="4"
+        stroke-linecap="round" filter="url(#ea-shadow-sm)" />
+    </g>
+    <g transform="translate(100, 238) scale(0.8)">
+      <circle cx="0" cy="0" r="6" fill="#ff7a6a" filter="url(#ea-shadow-sm)" />
+    </g>
+  </svg>

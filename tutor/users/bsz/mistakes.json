@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1776673383239",
+    "index": 2230,
+    "subject": "custom",
+    "type": "主观题",
+    "difficulty": "未知",
+    "knowledge_point": [],
+    "question": "3. 在棱长为1的正方体$ABCD - A_{1}B_{1}C_{1}D_{1}$中，$M,N$分别为$BD_{1},B_{1}C_{1}$的中点，点$P$在正方体的表面上运动，且满足$MP\\parallel 平面CND_{1}$，则下列说法正确的是（ ） A. 点$P$可以是棱$BB_{1}$的中点 B. 线段$MP$的最大值为$\\frac{\\sqrt{3}}{2}$ C. 点$P$的轨迹是正方形 D. 点$P$轨迹的长度为$2+\\sqrt{5}$",
+    "addedAt": "2026-04-20T08:23:03.239Z"
+  },
+  {
+    "id": "1776427417252",
+    "index": 403,
+    "subject": "math-g12",
+    "type": "问答题",
+    "difficulty": "难",
+    "knowledge_point": [
+      "棱柱、棱锥、棱台的体积;直线与平面所成的角．"
+    ],
+    "question": "(2008•杨浦区二模)在棱长为2的正方体$ABCD−A_{1}B_{1}C_{1}D_{1}$中，(如图)E是棱$C_{1}D_{1}$的中点，F是侧面$AA_{1}D_{1}D$的中心． (1)求三棱锥$A_{1}−D_{1}EF$的体积； (2)求EF与底面$A_{1}B_{1}C_{1}D_{1}$所成的角的大小．(结果可用反三角函数表示)",
+    "note": "[{\"role\":\"user\",\"content\":\"请开始引导学生解题。先简单介绍这道题的核心考查点，然后提出第一个引导问题。\"},{\"role\":\"assistant\",\"content\":\"好的，我已经读取了学生信息和讲解材料。毕淑真同学是高中生，知识水平较强，喜欢物理，指导风格要求简洁直接。现在开始引导。\\n\\n[SPEECH]\\n淑真，这道题考查两个核心技能：等体积法求三棱锥体积，以及线面角的\\\"作射影→证垂直→算角度\\\"三步法。先看第(1)问，直接算 $V_{A_1-D_1EF}$ 的底和高很麻烦，你能想到用什么技巧简化吗？\\n[/SPEECH]\\n\\n[KEYPOINT]\\n\\n[/KEYPOINT]\\n\\n[SHOW_SCENE:scene1]\"},{\"role\":\"user\",\"content\":\"分割\"},{\"role\":\"assistant\",\"content\":\"[SPEECH]\\n思路方向对——确实需要转化。但这里更精准的做法是\\\"换顶点\\\"：把 $A_1$ 和 $E$ 互换，转化为求 $V_{E-A_1D_1F}$。换完后，底面和高分别是什么？\\n[/SPEECH]\\n\\n[KEYPOINT]\\n$V_{A_1-D_1EF} = V_{E-A_1D_1F}$\\n[/KEYPOINT]\"},{\"role\":\"user\",\"content\":\"是的\"},{\"role\":\"assistant\",\"content\":\"[SPEECH]\\n好。现在以 $E$ 为顶点，底面是 $\\\\triangle A_1D_1F$，它就在侧面 $AA_1D_1D$ 上。$F$ 是该正方形中心，$S_{\\\\triangle A_1D_1F}$ 等于多少？\\n[/SPEECH]\\n\\n[KEYPOINT]\\n\\n[/KEYPOINT]\\n\\n[SPOTLIGHT:scene1:scene1-poly-a1d1f]\"},{\"role\":\"user\",\"content\":\"请你高亮地面和顶点\"},{\"role\":\"assistant\",\"content\":\"[SPEECH]\\n好，高亮底面 $\\\\triangle A_1D_1F$ 和高 $D_1E$（即顶点 $E$ 到底面的距离）。现在来算：底边 $A_1D_1=2$，$F$ 是正方形中心，所以 $F$ 到 $A_1D_1$ 的距离为1，$S_{\\\\triangle A_1D_1F}$ 等于多少？\\n[/SPEECH]\\n\\n[KEYPOINT]\\n\\n[/KEYPOINT]\\n\\n[SPOTLIGHT:scene1:scene1-poly-a1d1f]\\n[SPOTLIGHT:scene1:scene1-line-d1e]\"}]",
+    "addedAt": "2026-04-17T12:03:37.252Z"
+  },
+  {
+    "id": "1776183835517",
+    "index": 2207,
+    "subject": "math-g9",
+    "type": "选择题",
+    "difficulty": "难",
+    "knowledge_point": [
+      "初中数学;图形的性质;相交线与平行线;平行线的性质;平行线的性质;两直线平行同位角相等;两直线平行内错角相等;两直线平行同旁内角互补"
+    ],
+    "question": "如图所示，下列条件中，能判定直线a∥b的是（ ） $\\begin{description} \\item A．∠1＝∠4\\item B．∠4＝∠5\\item C．∠3+∠5＝180°\\item D．∠2＝∠4 \\end{description}$",
+    "note": "[{\"role\":\"user\",\"content\":\"请开始引导学生解题。先简单介绍这道题的核心考查点，然后提出第一个引导问题。\"}]",
+    "addedAt": "2026-04-14T16:23:55.517Z"
+  },
+  {
+    "id": "cc918a781589ab07",
+    "index": 2238,
+    "question": "【例1】在三棱台$A_{1}B_{1}C_{1}-ABC$中，点$D$在$A_{1}B_{1}$上，且$AA_{1}\\parallel BD$，点$M$是三角形$A_{1}B_{1}C_{1}$内（含边界）的一个动点，且有平面$BDM\\parallel$平面$A_{1}ACC_{1}$，则动点$M$的轨迹是（  ）\n\nA. 三角形$A_{1}B_{1}C_{1}$边界的一部分\nB. 一个点\nC. 线段的一部分\nD. 圆的一部分\n\n图1",
+    "subject": "custom",
+    "type": "主观题",
+    "difficulty": "未知",
+    "knowledge_point": [],
+    "hasDoc": true,
+    "addedAt": "2026-04-25T02:13:58.480Z",
+    "imagePath": "/Users/bisz/Documents/tutor2_code/resources/uploads/ocr_1777083229553.png"
+  }
+]

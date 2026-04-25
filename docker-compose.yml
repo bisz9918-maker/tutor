@@ -1,0 +1,20 @@
+services:
+  tutor2:
+    image: tutor2:latest
+    container_name: tutor2
+    restart: unless-stopped
+    ports:
+      - "${TUTOR_PORT:-7896}:7896"
+    env_file:
+      - .env
+    environment:
+      - TUTOR_ROOT=/app/tutor
+      - PYTHON=/usr/local/bin/python3
+    volumes:
+      - ./resources:/app/resources
+      - ./VisualSolver/.env:/app/VisualSolver/.env:ro
+      - ./tutor/embeddings.json:/app/tutor/embeddings.json
+      - ./tutor/users.json:/app/tutor/users.json
+      - ./tutor/sessions.json:/app/tutor/sessions.json
+      - ./tutor/users:/app/tutor/users
+      - ./tutor/static:/app/tutor/static

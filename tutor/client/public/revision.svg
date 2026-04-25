@@ -1,0 +1,130 @@
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+    <defs>
+      <!-- Soft Drop Shadows for 3D effect -->
+      <filter id="shadow-lg" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="8" dy="16" stdDeviation="12" flood-color="#8072e6" flood-opacity="0.25" />
+      </filter>
+      <filter id="shadow-md" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="4" dy="8" stdDeviation="8" flood-color="#3d3775" flood-opacity="0.2" />
+      </filter>
+      <filter id="shadow-sm" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="2" dy="5" stdDeviation="4" flood-color="#3d3775" flood-opacity="0.3" />
+      </filter>                                                                                                                 
+      <filter id="glow-red" x="-20%" y="-20%" width="150%" height="150%">
+        <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#ff6444" flood-opacity="0.35" />                             
+      </filter>   
+                                                                                                                                
+      <!-- Paper Gradients -->
+      <linearGradient id="paper-back" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#c1b6ff" />                                                                               
+        <stop offset="100%" stop-color="#9d8fff" />
+      </linearGradient>                                                                                                         
+      <linearGradient id="paper-front" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f8f7ff" />                                                                               
+        <stop offset="100%" stop-color="#e3ddff" />
+      </linearGradient>                                                                                                         
+  
+      <!-- Text Bar Gradient -->                                                                                                
+      <linearGradient id="text-bar" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#5a52a5" />                                                                               
+        <stop offset="100%" stop-color="#3e3876" />
+      </linearGradient>                                                                                                         
+                  
+      <!-- Grading Circle Gradient -->
+      <linearGradient id="circle-outer" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#a699ff" />                                                                               
+        <stop offset="100%" stop-color="#8473ff" />
+      </linearGradient>                                                                                                         
+      <linearGradient id="circle-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" />                                                                               
+        <stop offset="100%" stop-color="#f2efff" />
+      </linearGradient>                                                                                                         
+  
+      <!-- Checkmark Gradient -->                                                                                               
+      <linearGradient id="check-mark" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ff8f74" />
+        <stop offset="100%" stop-color="#ff502a" />                                                                             
+      </linearGradient>
+                                                                                                                                
+      <!-- Pencil Gradients (Matching the original yellow pencil) -->
+      <linearGradient id="pencil-top" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffe666" />                                                                               
+        <stop offset="100%" stop-color="#ffcd33" />
+      </linearGradient>                                                                                                         
+      <linearGradient id="pencil-side" x1="0%" y1="0%" x2="100%" y2="0%">                                                       
+        <stop offset="0%" stop-color="#f5b800" />
+        <stop offset="100%" stop-color="#d99800" />                                                                             
+      </linearGradient>                                                                                                         
+      <linearGradient id="wood" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffe199" />                                                                               
+        <stop offset="100%" stop-color="#e6b955" />                                                                             
+      </linearGradient>
+    </defs>                                                                                                                     
+                  
+    <!-- Background Paper -->
+    <g transform="translate(256, 256) rotate(10) translate(-256, -256)">
+      <rect x="120" y="80" width="240" height="340" rx="30" fill="url(#paper-back)" filter="url(#shadow-lg)" />                 
+    </g>
+                                                                                                                                
+    <!-- Foreground Paper -->                                                                                                   
+    <g transform="translate(256, 256) rotate(-4) translate(-256, -256)">
+      <!-- Main sheet -->                                                                                                       
+      <rect x="100" y="90" width="270" height="360" rx="35" fill="url(#paper-front)" filter="url(#shadow-lg)" />
+                                                                                                                                
+      <!-- Text Lines (Dark Purple) -->
+      <rect x="145" y="150" width="135" height="32" rx="16" fill="url(#text-bar)" filter="url(#shadow-sm)" />                   
+      <rect x="145" y="200" width="85" height="32" rx="16" fill="url(#text-bar)" filter="url(#shadow-sm)" />                    
+                                                                                                                                
+      <!-- Ghost text lines (Light purple context) -->                                                                          
+      <rect x="145" y="255" width="100" height="16" rx="8" fill="#c3bcff" opacity="0.6" />                                      
+      <rect x="145" y="285" width="160" height="16" rx="8" fill="#c3bcff" opacity="0.6" />
+    </g>                                                                                                                        
+  
+    <!-- Grading Mark Element (Purple circle + Big Checkmark) -->                                                               
+    <g transform="translate(260, 325)">
+      <!-- Outer thick purple ring -->                                                                                          
+      <circle cx="0" cy="0" r="105" fill="url(#circle-outer)" filter="url(#shadow-md)" />
+      <!-- Inner white-ish circle -->                                                                                           
+      <circle cx="0" cy="0" r="75" fill="url(#circle-inner)" filter="url(#shadow-sm)" />
+                                                                                                                                
+      <!-- Bold Checkmark inside the circle -->
+      <!-- The checkmark uses glowing red/orange to match the previous target color -->                                         
+      <path d="M-40,5 L-12,35 L45,-38" fill="none" stroke="url(#check-mark)" stroke-width="28" stroke-linecap="round" 
+  stroke-linejoin="round" filter="url(#glow-red)" />                                                                            
+    </g>
+                                                                                                                                
+    <!-- 3D Yellow Pencil (Floating and pointing at the checkmark) -->                                                          
+    <g transform="translate(345, 225) rotate(-38)">
+      <!-- Metal band (Dark Purple) -->                                                                                         
+      <path d="M-22,-70 L22,-70 L22,-40 L-22,-40 Z" fill="#473e8a" filter="url(#shadow-sm)" />
+                                                                                                                                
+      <!-- Eraser (Orange) -->
+      <path d="M-18,-90 L18,-90 L18,-70 L-18,-70 Z" fill="#ff7355" filter="url(#shadow-sm)" />                                  
+      <path d="M-18,-90 Q0,-102 18,-90" fill="#ff7355" />                                                                       
+                                                                                                                                
+      <!-- Left/Top Face of Hexagonal Pencil -->                                                                                
+      <path d="M-22,-40 L0,-40 L0,55 L-22,55 Z" fill="url(#pencil-top)" filter="url(#shadow-sm)" />                             
+      <!-- Right/Bottom Face of Hexagonal Pencil -->
+      <path d="M0,-40 L22,-40 L22,55 L0,55 Z" fill="url(#pencil-side)" filter="url(#shadow-sm)" />                              
+  
+      <!-- Wooden Cone Base -->                                                                                                 
+      <path d="M-22,55 L22,55 L0,115 Z" fill="url(#wood)" />
+                                                                                                                                
+      <!-- Pencil Tip (Dark Purple/Black lead) -->
+      <path d="M-8,93 L8,93 L0,115 Z" fill="#473e8a" />
+    </g>                                                                                                                        
+  
+    <!-- Decorative floating elements (Stars/Plus signs representing positive grading) -->                                      
+    <g transform="translate(140, 360)">
+      <path d="M0,-10 L0,10 M-10,0 L10,0" fill="none" stroke="#ff7355" stroke-width="5" stroke-linecap="round" 
+  filter="url(#shadow-sm)" opacity="0.8" />                                                                                     
+    </g>
+    <g transform="translate(390, 140) scale(1.2)">                                                                              
+      <path d="M0,-8 L0,8 M-8,0 L8,0" fill="none" stroke="#ffcd33" stroke-width="4" stroke-linecap="round"                      
+  filter="url(#shadow-sm)" />                                                                                                   
+    </g>                                                                                                                        
+    <g transform="translate(100, 240) scale(0.8)">                                                                              
+      <circle cx="0" cy="0" r="6" fill="#ffcd33" filter="url(#shadow-sm)" />
+    </g>                                                                                                                        
+  </svg>

@@ -1,0 +1,14 @@
+.venv/
+output/
+__pycache__/
+*.pyc
+.env
+resources
+.DS_Store
+*.tar.gz
+tutor/node_modules/
+tutor/dist/
+tutor/client/node_modules/
+tutor/client/dist/
+tutor/server/node_modules/
+tutor/server/dist/

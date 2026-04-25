@@ -1,0 +1,35 @@
+# 依赖
+node_modules/
+tutor/node_modules/
+.venv/
+
+# 模型文件（太大，不打进镜像）
+tutor/bge-m3/
+
+# 资源文件（volume 挂载）
+resources/
+
+# 运行时数据（volume 挂载）
+tutor/embeddings.json
+tutor/users.json
+tutor/sessions.json
+tutor/mistakes/
+
+# 开发/测试文件
+*.png
+*.log
+test*.py
+single_test.py
+mcp_issue.md
+
+# Python 缓存
+__pycache__/
+*.pyc
+.venv/
+
+# Git
+.git/
+
+# VisualSolver 输出
+VisualSolver/output/
+VisualSolver/data/rag/
