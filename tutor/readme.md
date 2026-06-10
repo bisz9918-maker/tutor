@@ -143,12 +143,24 @@ PYTHON=/usr/local/bin/python3           # 容器内 Python 路径
 
 ## 安装与启动
 
+### 拉取代码
+
+本项目由主仓库和 VisualSolver 子包分别在不同分支，需分开克隆：
+
+```bash
+# 克隆主仓库（master 分支）
+git clone -b master https://github.com/bisz9918-maker/tutor.git tutor2
+cd tutor2
+
+# 克隆 VisualSolver 包（visual-solver-package 分支）并改名为 VisualSolver
+git clone -b visual-solver-package https://github.com/bisz9918-maker/tutor.git VisualSolver
+```
+
 ### 本地开发
 
 ```bash
 # 1. 配置环境变量
 cp .env.example .env                # 编辑 .env，填入 API 密钥等
-cp VisualSolver/.env.template VisualSolver/.env  # 编辑 VisualSolver/.env
 
 # 2. 安装 Node 依赖
 cd tutor && npm install
