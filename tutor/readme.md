@@ -41,14 +41,17 @@ tutor2/
 ├── Dockerfile                          # 多阶段构建镜像（Node 编译 + Python 运行时）
 ├── docker-compose.yml                  # 容器编排与数据卷挂载
 ├── .dockerignore
+├── .env                                # 主配置文件（服务端口、OCR/ASR/TTS/Embedding/OAH）
 ├── generate_doc_direct.py              # 直接调用 VisualSolver 生成讲解
 ├── VisualSolver/                       # HTML 讲解生成引擎（独立 pip 包）
+│   ├── .env                            # VisualSolver 配置（LLM API、Kokoro TTS）
+│   ├── .env.template                   # VisualSolver 配置模板
 │   ├── pyproject.toml                  # 包声明，支持 pip install -e
 │   ├── visual_solver/                  # Python 包
 │   │   ├── __init__.py                 # 导出 ExplanationGenerator
 │   │   ├── generate_explanation.py
 │   │   ├── src/                        # core, config, rag, utils
-│   │   ├── mllm_tools/                 # LLM 调用封装
+│   │   ├── mllm_tools/                 # LLM 调用封装（LiteLLM）
 │   │   └── task_generator/             # prompt 模板
 │   ├── mcp_server.py
 │   └── ...
@@ -58,23 +61,25 @@ tutor2/
 │   ├── my_experiment/                  # 用户自定义生成的讲解
 │   └── uploads/                        # OCR 上传图片
 └── tutor/
-    ├── src/server.ts                   # TypeScript 源码（Express 后端 + 内嵌前端）
-    ├── dist/server.js                  # 编译产物
+    ├── server/src/                     # TypeScript 源码（Express 后端）
+    ├── server/dist/                    # 编译产物
+    ├── client/                         # Vue 前端源码
+    ├── client/dist/                    # 前端构建产物
     ├── embeddings.json                 # 题目向量索引（BGE-M3，1024 维）
     ├── static/                         # 静态资源
     ├── users.json                      # 用户数据
     ├── sessions.json                   # 登录会话
-    ├── mistakes/                       # 错题本（按用户分文件）
-    ├── package.json
-    └── tsconfig.json
+    ├── users/                          # 用户目录（辅导历史等）
+    └── mistakes/                       # 错题本（按用户分文件）
 ```
 
 ## 技术栈
 
 | 层 | 技术 |
 |----|------|
-| 后端 | Node.js 24 + Express 5 + TypeScript 6 |
-| LLM 调用 | OpenAI SDK（流式 SSE） |
+| 后端 | Node.js 24 + Express 5 + TypeScript |
+| 前端 | Vue + Vite |
+| LLM 调用 | OpenAI SDK（流式 SSE）+ OAH Workspace |
 | 讲解生成 | Python 3.13 + LiteLLM + Pillow（pip install -e VisualSolver） |
 | 前端 | 内嵌单页应用（MathJax 3，纯 CSS，无框架） |
 | 数据存储 | 文件 JSON（无需数据库） |
@@ -82,69 +87,80 @@ tutor2/
 
 ## 配置
 
-在项目根目录 `.env` 中配置：
+项目有两个 `.env` 配置文件，分别控制不同模块。
+
+### 1. 主配置文件 `.env`（项目根目录）
+
+由 Node.js 服务端加载，控制服务端口和所有外部 API。
 
 ```env
-# LLM API（OpenAI 兼容接口）
-API_URL=https://your-api-endpoint/v1
-API_KEY=your-api-key
-MODEL=Kimi-K25
+# ==================== 服务端口 ====================
+TUTOR_PORT=7896                         # 服务监听端口（默认 7896）
 
-# 服务端口
-TUTOR_PORT=7896
+# ==================== OAH Workspace API ====================
+OAH_API_URL=http://host.docker.internal:8787   # OAH 服务地址（主对话依赖此服务）
+OAH_WORKSPACE_TEMPLATE=question-tutor          # 讲题 Workspace 模板名
+OAH_GRADER_TEMPLATE=question-grader            # 批改 Workspace 模板名
+                                        # Docker 部署时用 host.docker.internal 访问宿主机
 
-# OCR 识别
-OCR_URL=https://your-ocr-endpoint/v1
-OCR_KEY=your-key
+# ==================== OCR 识别 ====================
+OCR_URL=https://your-ocr-endpoint/v1    # OCR API 地址（GLM-OCR 兼容）
+OCR_KEY=your-key                        # OCR API 密钥
 
-# ASR 语音识别
-ASR_URL=https://your-asr-endpoint
-ASR_KEY=your-key
+# ==================== ASR 语音识别 ====================
+ASR_URL=https://your-asr-endpoint       # ASR API 地址（POST /transcribe）
+ASR_KEY=your-key                        # ASR API 密钥（留空则回退到 API_KEY）
 
-# TTS 语音合成
-TTS_URL=https://your-tts-endpoint
-TTS_KEY=your-key
+# ==================== TTS 语音合成 ====================
+TTS_URL=https://your-tts-endpoint       # TTS API 地址（POST /tts/zero_shot）
+TTS_KEY=your-key                        # TTS API 密钥（留空则回退到 API_KEY）
 
-# BGE-M3 Embedding API（GPU 服务）
-EMBED_URL=https://your-embed-endpoint/v1
-EMBED_KEY=your-key
-EMBED_MODEL=/path/to/bge-m3
+# ==================== BGE-M3 Embedding（GPU 服务）====================
+EMBED_URL=https://your-embed-endpoint/v1  # Embedding API 地址（OpenAI 兼容 /v1/embeddings）
+EMBED_KEY=your-key                      # Embedding API 密钥
+EMBED_MODEL=/path/to/bge-m3             # Embedding 模型路径（默认 bge-m3）
+
+# ==================== Docker 容器内路径（仅 Docker 部署需要）====================
+TUTOR_ROOT=/app/tutor                   # 容器内 tutor 目录路径
+PYTHON=/usr/local/bin/python3           # 容器内 Python 路径
 ```
 
-在 `VisualSolver/.env` 中配置讲解生成：
+**必填项**：
+- Docker 部署：`TUTOR_PORT`、`OAH_API_URL`、`EMBED_URL`、`EMBED_KEY`、`TUTOR_ROOT`、`PYTHON`
+- 本地开发：`OAH_API_URL`、`EMBED_URL`、`EMBED_KEY`
 
-```env
-CUSTOM_API_BASE=https://your-api-endpoint/v1
-CUSTOM_API_KEY=your-api-key
-VISUAL_SOLVER_MODEL=Kimi-K25   # 生成讲解使用的模型
-```
+**可选项**：`OCR_*`、`ASR_*`、`TTS_*` 未配置时对应功能自动禁用，不会报错。
 
 ## 外部服务依赖
 
-| 服务 | 用途 | 接口 |
-|------|------|------|
-| LLM API | 对话、批改、错题分析 | OpenAI 兼容 `/v1/chat/completions` |
-| BGE-M3 Embedding | 题目语义检索 | OpenAI 兼容 `/v1/embeddings`（GPU 服务） |
-| OCR | 拍照识别题目/解题过程 | GLM-OCR |
-| ASR | 学生语音输入转文字 | `POST /transcribe` |
-| TTS | AI 讲解语音朗读 | `POST /tts/zero_shot` |
+| 服务 | 用途 | 接口 | 必需 |
+|------|------|------|------|
+| OAH Workspace | 主对话（讲题、批改、讲解生成） | HTTP API | 是 |
+| BGE-M3 Embedding | 题目语义检索 | OpenAI 兼容 `/v1/embeddings` | 是 |
+| OCR | 拍照识别题目/解题过程 | GLM-OCR | 否 |
+| ASR | 学生语音输入转文字 | `POST /transcribe` | 否 |
+| TTS | AI 讲解语音朗读 | `POST /tts/zero_shot` | 否 |
 
 ## 安装与启动
 
 ### 本地开发
 
 ```bash
-# 1. 安装 Node 依赖
+# 1. 配置环境变量
+cp .env.example .env                # 编辑 .env，填入 API 密钥等
+cp VisualSolver/.env.template VisualSolver/.env  # 编辑 VisualSolver/.env
+
+# 2. 安装 Node 依赖
 cd tutor && npm install
 
-# 2. 安装 Python 依赖（VisualSolver 讲解生成）
+# 3. 安装 Python 依赖（VisualSolver 讲解生成）
 python3 -m venv .venv
 .venv/bin/pip install -e VisualSolver
 
-# 3. 构建向量索引（首次，或题库更新后）
+# 4. 构建向量索引（首次，或题库更新后）
 python3 /tmp/build_embeddings.py   # 见下方说明
 
-# 4. 启动（开发模式，ts-node 直接运行源码，无需编译）
+# 5. 启动（开发模式，ts-node 直接运行源码，无需编译）
 npm run dev
 
 # 或编译后启动
@@ -171,11 +187,43 @@ BATCH_SIZE = 32
 
 ### Docker 部署
 
+#### 首次部署前准备
+
+1. 确保配置文件就绪：
+   ```bash
+   # 编辑主配置
+   vim .env
+   # 编辑 VisualSolver 配置
+   vim VisualSolver/.env
+   ```
+
+2. 确保数据文件就绪：
+   ```
+   .env
+   VisualSolver/.env
+   resources/
+   ├── database.json
+   ├── exp_gemini-3-pro-preview/
+   └── uploads/
+   tutor/
+   ├── embeddings.json
+   ├── users.json
+   ├── sessions.json
+   ├── mistakes/
+   ├── static/
+   └── users/
+   ```
+
+3. 确保 Docker 上下文正确（不要使用 `desktop-linux`）：
+   ```bash
+   docker context use default
+   ```
+
 #### 构建与启动
 
 ```bash
 # 构建镜像
-docker compose build
+docker build -t tutor2:latest .
 
 # 启动
 docker compose up -d
@@ -184,7 +232,7 @@ docker compose up -d
 docker compose logs -f
 
 # 更新部署
-docker compose build && docker compose up -d
+docker build -t tutor2:latest . && docker compose up -d
 ```
 
 #### 数据卷说明
@@ -198,26 +246,15 @@ docker compose build && docker compose up -d
 | `./tutor/embeddings.json` | `/app/tutor/embeddings.json` | 题目向量索引 |
 | `./tutor/users.json` | `/app/tutor/users.json` | 用户数据 |
 | `./tutor/sessions.json` | `/app/tutor/sessions.json` | 登录会话 |
-| `./tutor/mistakes` | `/app/tutor/mistakes` | 错题本（按用户分文件） |
+| `./tutor/users` | `/app/tutor/users` | 用户目录（辅导历史） |
+| `./tutor/static` | `/app/tutor/static` | 静态资源 |
 
-#### 首次部署前准备
+#### 常见问题
 
-确保宿主机目录结构如下：
-
-```
-/path/to/tutor2/
-├── .env
-├── VisualSolver/.env
-├── resources/
-│   ├── database.json
-│   ├── exp_gemini-3-pro-preview/
-│   └── uploads/
-└── tutor/
-    ├── embeddings.json
-    ├── users.json
-    ├── sessions.json
-    └── mistakes/
-```
+- **端口被占用**：检查 `TUTOR_PORT` 对应端口是否被其他进程占用（`ss -tlnp | grep 7896`）
+- **Docker 命令超时**：确认 Docker 上下文是 `default` 而非 `desktop-linux`（`docker context use default`）
+- **讲解生成失败**：检查 `VisualSolver/.env` 中 `CUSTOM_API_BASE` 和 `CUSTOM_API_KEY` 是否正确
+- **OCR/ASR/TTS 不可用**：对应 `.env` 配置留空时功能自动禁用，属正常行为
 
 ## API 端点
 
