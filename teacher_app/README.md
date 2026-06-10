@@ -43,10 +43,7 @@ vim .env
 | `OCR_URL` | - | OCR 服务地址 |
 | `OCR_KEY` | - | OCR 服务密钥 |
 | `OCR_MODE` | `openai` | OCR 模式：`openai` = 调用 `{OCR_URL}/chat/completions`（OpenAI 兼容格式）；`native` = POST `image_base64` 到 `OCR_URL` |
-| `TTS_URL` | - | 语音合成服务地址 |
-| `TTS_KEY` | - | 语音合成服务密钥 |
-| `ASR_URL` | - | 语音识别服务地址 |
-| `ASR_KEY` | - | 语音识别服务密钥 |
+
 
 ### 其他配置
 
