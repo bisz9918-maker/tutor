@@ -32,6 +32,7 @@ WORKDIR /app
 COPY VisualSolver/requirements.docker.txt ./VisualSolver/requirements.docker.txt
 RUN pip install --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple/ -r VisualSolver/requirements.docker.txt
 COPY VisualSolver/ ./VisualSolver/
+RUN touch ./VisualSolver/.env
 
 # generate_doc_direct.py
 COPY generate_doc_direct.py ./
