@@ -23,7 +23,7 @@ router.post("/api/ocr", async (req: Request, res: Response) => {
     fs.writeFileSync(imagePath, Buffer.from(image, "base64"));
 
     const resp = await ocrClient.chat.completions.create({
-      model: "ocr2.0",
+      model: process.env.OCR_MODEL || "ocr2.0",
       messages: [{
         role: "user",
         content: [
