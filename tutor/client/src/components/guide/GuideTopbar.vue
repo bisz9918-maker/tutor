@@ -14,14 +14,10 @@
         <span class="status" :class="{ ok: ocrOk, err: ocrStatus && !ocrOk }">{{ ocrStatus }}</span>
       </div>
       <div class="topbar-row">
-        <button class="btn btn-primary" id="search-btn" @click="search" :disabled="searching">检索题目</button>
         <button class="btn btn-outline" id="reset-btn" v-if="searched" @click="reset">重置</button>
-        <button class="btn btn-primary" id="guide-btn" v-if="searched && guideStore.hasDoc && !notMyQ" @click="startGuide">开始讲题</button>
-        <button class="btn btn-outline" v-if="searched && guideStore.currentIndex !== null && !notMyQ" @click="goGrade">批改</button>
-        <button class="btn btn-outline" id="gen-doc-btn" v-if="(searched && !guideStore.hasDoc) || notMyQ" @click="generateDoc" :disabled="generating">准备讲解材料</button>
-        <button class="btn btn-outline" id="similar-cur-btn" v-if="searched" @click="$router.push('/similar')">相似题目</button>
+        <button class="btn btn-primary" id="guide-btn" v-if="searched && guideStore.hasDoc" @click="startGuide">开始讲题</button>
+        <button class="btn btn-outline" id="gen-doc-btn" v-if="searched && !guideStore.hasDoc" @click="generateDoc" :disabled="generating">准备讲解材料</button>
         <button class="btn btn-mistake" id="guide-add-mistake-btn" v-if="searched" @click="addMistake">{{ mistakeBtnText }}</button>
-        <button class="btn btn-secondary" id="not-my-btn" v-if="searched && guideStore.hasDoc && !notMyQ" @click="onNotMyQuestion">不是这个题目</button>
         <span class="status" id="match-info" :class="{ ok: statusOk, err: statusErr }">{{ statusText }}</span>
         <GenProgressBar :visible="generating" :percent="genPercent" :label="genLabel" />
       </div>
@@ -43,9 +39,6 @@ const ocr = useOCR()
 const emit = defineEmits<{ 'start-guide': [] }>()
 
 const question = ref('')
-const originalQuestion = ref('')
-const originalOcrImagePath = ref<string | null>(null)
-const searching = ref(false)
 const searched = ref(false)
 const statusText = ref('')
 const statusOk = ref(false)
@@ -54,7 +47,6 @@ const generating = ref(false)
 const genPercent = ref(0)
 const genLabel = ref('')
 const topbarCollapsed = ref(false)
-const notMyQ = ref(false)
 const mistakeBtnText = ref('加入错题本')
 const ocrStatus = ref('')
 const ocrOk = ref(false)
@@ -94,6 +86,7 @@ async function onPaste(e: ClipboardEvent) {
   ocrStatus.value = ocr.ocrStatus.value
   ocrOk.value = ocr.ocrOk.value
   if (result.imagePath) guideStore.currentOcrImagePath = result.imagePath
+  if (question.value.trim()) { guideStore.currentQuestion = question.value; searched.value = true }
 }
 
 async function onOcrFile(e: Event) {
@@ -110,36 +103,7 @@ async function onOcrFile(e: Event) {
   ocrOk.value = ocr.ocrOk.value
   if (result.imagePath) guideStore.currentOcrImagePath = result.imagePath
   input.value = ''
-}
-
-async function search() {
-  if (!question.value.trim()) return
-  searching.value = true
-  statusText.value = '检索中...'
-  statusOk.value = false
-  statusErr.value = false
-  try {
-    originalQuestion.value = question.value
-    originalOcrImagePath.value = guideStore.currentOcrImagePath
-    const result = await guideStore.searchQuestion(question.value)
-    if (!result.found) {
-      statusText.value = '未找到匹配题目，可用 AI 合成讲解'
-      statusErr.value = true
-      searched.value = true
-      return
-    }
-    statusText.value = `✓ #${result.index} ${result.subject} ${result.difficulty} ${result.score}% ${guideStore.currentKP.join('、')}`
-    statusOk.value = true
-    question.value = guideStore.currentQuestion
-    searched.value = true
-    notMyQ.value = false
-    mistakeBtnText.value = '加入错题本'
-  } catch {
-    statusText.value = '搜索失败'
-    statusErr.value = true
-  } finally {
-    searching.value = false
-  }
+  if (question.value.trim()) { guideStore.currentQuestion = question.value; searched.value = true }
 }
 
 function reset() {
@@ -152,20 +116,11 @@ function reset() {
   ocrStatus.value = ''
   ocrOk.value = false
   topbarCollapsed.value = false
-  notMyQ.value = false
 }
 
 function startGuide() {
   topbarCollapsed.value = true
   emit('start-guide')
-}
-
-function goGrade() {
-  if (guideStore.currentIndex !== null) {
-    guideStore.gradeIndex = guideStore.currentIndex
-  }
-  guideStore.gradeQuestion = question.value || guideStore.currentQuestion
-  router.push('/grade')
 }
 
 async function generateDoc() {
@@ -224,19 +179,6 @@ async function generateDoc() {
     statusErr.value = true
     generating.value = false
   }
-}
-
-function onNotMyQuestion() {
-  question.value = originalQuestion.value
-  guideStore.currentOcrImagePath = originalOcrImagePath.value
-  statusText.value = '将为你的题目准备专属讲解材料'
-  statusOk.value = false
-  statusErr.value = false
-  notMyQ.value = true
-  guideStore.currentIndex = null
-  guideStore.currentScenes = []
-  guideStore.currentKP = []
-  guideStore.currentQuestion = ''
 }
 
 async function addMistake() {

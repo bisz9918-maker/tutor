@@ -1,11 +1,10 @@
 <template>
   <div class="guide-body" id="guide-body">
     <!-- Problem panel (visible once question loaded) -->
-    <div class="guide-problem-standalone" v-if="guideStore.currentIndex !== null && !guideStarted">
+    <div class="guide-problem-standalone" v-if="questionReady && !guideStarted">
       <ProblemPanel />
       <div class="guide-standalone-actions">
-        <button class="btn btn-primary guide-action-btn" @click="startGuide">去讲解</button>
-        <button class="btn btn-outline guide-action-btn" @click="goGrade">去批改</button>
+        <button class="btn btn-primary guide-action-btn" v-if="guideStore.hasDoc" @click="startGuide">去讲解</button>
       </div>
     </div>
 
@@ -61,6 +60,7 @@ const practiceVisible = ref(false)
 const inputVisible = ref(false)
 const fabVisible = ref(false)
 const guideStarted = ref(false)
+const questionReady = computed(() => guideStore.currentQuestion.length > 0)
 const fabAvatar = computed(() => {
   if (chat.streaming.value) return avatarThinking
   if (tts.isPlaying.value || tts.isLoading.value) return avatarExplaining
